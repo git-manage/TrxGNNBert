@@ -8,16 +8,13 @@ Options
 ```
 
 ## Tokenizer
-
 `tokenizer` is a small tokenizer with about 5,000 tokens
-
-`tokenizer_larger` is a large tokenzier with more than 1w tokens
-
-## Pre-Training 方式
-   - 分别使用5000和1w大小的tokenizer
-   - 只mask edge
-   - 只mask node
-   - mask node and edge
+`tokenizer_larger` is a large tokenzier with about 1w tokens
+## Pre-Training ways
+   - using small tokenizer or large tokenizer
+   - only mask edge 
+   - only mask node
+   - mask both node and edge
 
 
 ## Run
@@ -55,10 +52,10 @@ python main.py \
     --token_vocab 'esperberto-vocab.json' \
     --token_merge 'esperberto-merges.txt' 2>&1 | tee  $saved_model/log.txt
 ```
-预训练 pretrain/jobs_masked_node_edge/run_bert_dim_384_6w_masked_node_edge.sh
-测试 downstream_tasks/none-phishing-scam-classfication/run_bert_dim_128_384_masked_node_masked_edge.sh
+Pretraining script: pretrain/jobs_masked_node_edge/run_bert_dim_384_6w_masked_node_edge.sh
+test script:  downstream_tasks/none-phishing-scam-classfication/run_bert_dim_128_384_masked_node_masked_edge.sh
 ## Downstream tasks
-划分3个数据集， train, valid, test
+We devided our data into three datasets, which are used to train, valid, test
 
 n steps train, validation, -> save best model 
 
@@ -68,11 +65,11 @@ test
 
 - downstream_tasks
     - none-phishing-scam-classfication
-        - run.sh #启动脚本，对不同的预训练模型应该要有不同的脚本
-        - data #数据的文件夹
-        - processed #预处理以后存数据的文件夹
-        - tokenizer #小分词器
-        - tokenizer_larger #大分词器
+        - run.sh # run this script to start training, there should be different script for different models for each model has different settings. 
+        - data # folder to store raw data 
+        - processed # folder to store processed data
+        - tokenizer # small tokenizer
+        - tokenizer_larger # largee tokenizer
         - init.py
         - main.py
     - function_name_prediction

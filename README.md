@@ -1,26 +1,31 @@
-# Pretrain TrxGNNBert Model
+## TrxGNNbert
+This is the code and dataset for the paper "TRXGNNBERT: Transaction BERT with Graph Encoder"
 
-## Data
-```
-Options
---raw_data_folder : folder path to the *.pl files, `raw_data` for all all, `raw_data_6w` for 6w trx.
---pickle_path : save preprocessed graph daa
-```
+##  Getting started
+### 1.download dataset and pretrained model from 
 
-## Tokenizer
-`tokenizer` is a small tokenizer with about 5,000 tokens
-`tokenizer_larger` is a large tokenzier with about 1w tokens
-## Pre-Training ways
-   - using small tokenizer or large tokenizer
-   - only mask edge 
-   - only mask node
-   - mask both node and edge
+- https://pan.baidu.com/s/17GIVex5uMnV8fNUwiRJDZg?pwd=1111&_at_=1729610977990#list/path=%2F
+- You can just go to step 3 to train with the pretrained model we provide, or if you want to pretrain your own model with different setting, please refer to step 2. 
 
+### 2. Pretrain TrxGNNBert Model
+- Download the pretrain dataset folder, choose one of dataset in the folder.
+- Extract the choosen dataset and rename the folder as 'data'
+- Place the dataset under the pretrain profile
+#### parameter options
 
-## Run
+##### Data_folder
+-raw_data_folder : folder path to the *.pl files, `raw_data` for all all, `raw_data_6w` for 6w trx.
 
+-pickle_path : save preprocessed graph daa
+##### Tokenizer
+- `tokenizer` is a small tokenizer with about 5,000 tokens
+- `tokenizer_larger` is a large tokenzier with more than 1w tokens
+##### Pre-Training parameter
+   - mask edge # only mask edge features during pretraining 
+   - mask node # only mask node features during pretraining
+   - mask node and edge
+##### Full parameter
 Please refer `utils/argument.py`
-
 ```shell
 python main.py \
     --learning_rate 3e-5 \
@@ -52,25 +57,30 @@ python main.py \
     --token_vocab 'esperberto-vocab.json' \
     --token_merge 'esperberto-merges.txt' 2>&1 | tee  $saved_model/log.txt
 ```
-Pretraining script: pretrain/jobs_masked_node_edge/run_bert_dim_384_6w_masked_node_edge.sh
-test script:  downstream_tasks/none-phishing-scam-classfication/run_bert_dim_128_384_masked_node_masked_edge.sh
-## Downstream tasks
-We devided our data into three datasets, which are used to train, valid, test
+#### RUN
+bash  pretrain/jobs_masked_node_edge/jobs.sh 
 
-n steps train, validation, -> save best model 
+### 3. Train TrxGNNBert Model
 
-load best model - run test -> report
-test
+#### Dataset and downstream tasks
 
+We provide three dataset in the link above, representing for three different downstream tasks.Among them, the 'EOA dataset' folder contains dataset for detection of suspicious Accounts, the 'EOA' folder contain dataset for Detection of Suspicious Accounts,the 'ternary classification dataset' and 'binary classification dataset' contains dataset for detection of suspicious transaction.
 
+#### Training details
+We divided each dataset into three part, train dataset, valid dataset, and test dataset.
+
+After 1 epoch of training, we will save the best model in validation and begin to test. We train out model 10 epoch on every dataset. 
+#### Folder structure of folder 'downstream_tasks'
 - downstream_tasks
     - none-phishing-scam-classfication
-        - run.sh # run this script to start training, there should be different script for different models for each model has different settings. 
-        - data # folder to store raw data 
-        - processed # folder to store processed data
+        - run.sh #
+        - data # folder to store dataset
+        - processed # folder to store preprocessed dataset
         - tokenizer # small tokenizer
-        - tokenizer_larger # largee tokenizer
+        - tokenizer_larger # larger tokenizer
         - init.py
         - main.py
     - function_name_prediction
     - task3
+#### RUN
+bash downstream_tasks/none-phishing-scam-classfication/run_bert_dim_128_384_masked_node_masked_edge.sh

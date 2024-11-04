@@ -1,5 +1,5 @@
-## TrxGNNbert
-This is the code and dataset for the paper "TRXGNNBERT: Transaction BERT with Graph Encoder"
+## TrxGNNbert: Catching Large-Scale DeFi Security Threats via Graph-Transformer Language Model
+This is the code and dataset for the paper *Catching Large-Scale DeFi Security Threats via Graph-Transformer Language Model*
 
 ##  Getting started
 ### 1.download dataset and pretrained model from 
